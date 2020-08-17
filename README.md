@@ -2,6 +2,8 @@
 
 A simple Flutter project that shows a list of grocery items, with the ability to be added to cart, and to view the items inside the cart.
 
+For any questions please reach out to me on Twitter [@pr_Mais](https://twitter.com/pr_Mais).
+
 ## Resources:
 
 - [Install flutter](https://flutter.dev/docs/get-started/install)
