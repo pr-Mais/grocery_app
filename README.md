@@ -4,9 +4,10 @@ A simple Flutter project that shows a list of grocery items, with the ability to
 
 ## Resources:
 
-- Install flutter: https://flutter.dev/docs/get-started/install
-- Flutter codelabs: https://flutter.dev/docs/codelabs
-- My arabic articles about Flutter: https://fairybits.com
+- [Install flutter](https://flutter.dev/docs/get-started/install)
+- [Flutter codelabs](https://flutter.dev/docs/codelabs)
+- [My arabic articles about Flutter](https://fairybits.com)
+- [Further resources](https://github.com/pr-Mais/flutter-resources)
 
 ## Preview:
 
