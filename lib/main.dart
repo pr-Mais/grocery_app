@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'cart_page.dart';
 import 'grocery_item_card.dart';
 
 void main() => runApp(GroceryApp());
@@ -189,47 +190,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class CartPage extends StatefulWidget {
-  CartPage({
-    Key key,
-    this.cards,
-    this.total,
-  }) : super(key: key);
-  final List<Widget> cards;
-  final double total;
-  @override
-  _CartPageState createState() => _CartPageState();
-}
-
-class _CartPageState extends State<CartPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("My Cart"),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: widget.cards.length,
-              itemBuilder: (context, index) {
-                return widget.cards[index];
-              },
-            ),
-          ),
-          SizedBox(height: 50),
-          Text("Total: ${widget.total.toString()}\$",
-              style: TextStyle(
-                fontSize: 30,
-              )),
-          SizedBox(height: 50),
-        ],
       ),
     );
   }
