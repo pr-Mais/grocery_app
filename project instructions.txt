@@ -1,0 +1,12 @@
+//TODO 1: Create a Flutter project
+//TODO 2: Build the first Stateless AppWidget
+//TODO 3: Use MaterialApp to specify home property (the first page to be shown in an app)
+//TODO 4: Build the first page in the app [HomePage]
+//TODO 5: Add a theme to the app
+//TODO 6: Run the app on iOS/Android
+//TODO 7: Make a model template for GroceryItem
+//TODO 8: Make a list of grocery items
+//TODO 9: Display the list in the HomePage
+//TODO 10: Make a CartPage
+//TODO 11: Add a button to each item so we can add it to CartPage
+//TODO 12: Run the app on web/desktop
