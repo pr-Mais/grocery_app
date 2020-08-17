@@ -4,6 +4,6 @@ A simple Flutter project that shows a list of grocery items, with the ability to
 
 Preview:
 
-![Project Preview](https://drive.google.com/file/d/185PF8Q-AvUM4TChiw5yrvUzi6V2kDn2b/preview)
+![Project Preview](https://github.com/pr-Mais/grocery_app/blob/master/preview.gif)
 
 
