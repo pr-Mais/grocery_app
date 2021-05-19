@@ -13,6 +13,6 @@ For any questions please reach out to me on Twitter [@pr_Mais](https://twitter.c
 
 ## Preview:
 
-![Project Preview](https://github.com/pr-Mais/grocery_app/blob/master/preview.gif)
+![Project Preview](https://github.com/pr-Mais/grocery_app/blob/master/project_preview.gif)
 
 
