@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/cart_page.dart';
+import 'package:grocery_app/grocery_item_card.dart';
+import 'package:grocery_app/items.dart';
 
-import 'cart_page.dart';
-import 'grocery_item_card.dart';
 
 void main() => runApp(GroceryApp());
 
 class GroceryApp extends StatelessWidget {
-  const GroceryApp({Key key}) : super(key: key);
+  const GroceryApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,98 +15,57 @@ class GroceryApp extends StatelessWidget {
       home: const HomePage(),
       theme: ThemeData.light().copyWith(
         primaryColor: Colors.green,
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+        ),
       ),
       darkTheme: ThemeData.dark(),
-      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<GroceryItem> _items = [
-    GroceryItem(img: "assets/tomato.jpg", name: "Tomato", price: 1),
-    GroceryItem(img: "assets/orange.jpg", name: "Orange", price: 1),
-    GroceryItem(img: "assets/toothpaste.jpeg", name: "Toothpaste", price: 1),
-    GroceryItem(img: "assets/chips.jpeg", name: "Chips", price: 1),
-    GroceryItem(img: "assets/bread.jpg", name: "Bread", price: 1),
-    GroceryItem(img: "assets/chocolate.jpg", name: "Chocolate", price: 1),
-    GroceryItem(img: "assets/coffee.jpg", name: "Coffee", price: 1),
-    GroceryItem(img: "assets/potato.jpg", name: "Potato", price: 1),
-    GroceryItem(img: "assets/flour.jpg", name: "Flour", price: 1),
-  ];
-
+  List<GroceryItem> _items = [];
   List<GroceryItem> _cart = [];
 
+  @override
+  void initState() {
+    // Map our data into Models
+    _items = items
+        .map(
+          (item) => GroceryItem.fromMap(item),
+        )
+        .toList();
+
+    // Cart is initially empty
+    _cart = [];
+
+    super.initState();
+  }
+
   void _pushCart() {
-    final _cards = _cart.map((item) {
-      return Card(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 40,
-          vertical: 10,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: [
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(item.img ?? "assets/placeholder.jpg"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              SizedBox(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.name,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    "Price: ${item.price.toString()}\$",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
-    }).toList();
-
-    double _total = 0.0;
-
-    for (var item in _cart) {
-      _total += item.price;
-    }
-
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) {
-        return CartPage(
-          cards: _cards,
-          total: _total,
-        );
-      },
-    ));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return CartPage(
+            cart: _cart,
+            cartChanged: (value) {
+              setState(() {
+                _cart = value;
+              });
+            },
+          );
+        },
+      ),
+    );
   }
 
   @override
@@ -123,72 +83,67 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
         itemCount: _items.length,
         itemBuilder: (context, index) {
-          return _buildItemCard(_items[index]);
+          return GroceryItemCard(
+            cart: _cart,
+            item: _items[index],
+            onChanged: (bool inCart) => setState(() {
+              if (inCart)
+                _cart.remove(_items[index]);
+              else
+                _cart.add(_items[index]);
+            }),
+          );
         },
       ),
     );
   }
+}
 
-  Widget _buildItemCard(GroceryItem item) {
-    bool _inCart = _cart.contains(item);
-    return Card(
+class GroceryItemCard extends StatelessWidget {
+  GroceryItemCard({
+    Key? key,
+    required this.cart,
+    required this.item,
+    required this.onChanged,
+  }) : super(key: key);
+
+  late final List<GroceryItem> cart;
+  late final GroceryItem item;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    bool _inCart = cart.contains(item);
+
+    return Container(
       margin: const EdgeInsets.symmetric(
-        horizontal: 40,
+        horizontal: 10,
         vertical: 10,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Row(
-          children: [
-            Container(
-              width: 150,
-              height: 150,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(item.img ?? "assets/placeholder.jpg"),
-                  fit: BoxFit.cover,
-                ),
-              ),
+      child: ListTile(
+        tileColor: Colors.white,
+        leading: Container(
+          width: 50,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(item.img),
+              fit: BoxFit.cover,
             ),
-            SizedBox(width: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.name,
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Price: ${item.price.toString()}\$",
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green),
-                ),
-                FlatButton.icon(
-                  onPressed: () {
-                    setState(() {
-                      if (_inCart)
-                        _cart.remove(item);
-                      else
-                        _cart.add(item);
-
-                      _inCart = _cart.contains(item);
-                    });
-                  },
-                  icon: _inCart ? Icon(Icons.remove) : Icon(Icons.add),
-                  label:
-                      _inCart ? Text("Remove from Cart") : Text("Add to Cart"),
-                  color: _inCart ? Colors.red : Theme.of(context).primaryColor,
-                  textColor: Colors.white,
-                )
-              ],
-            ),
-          ],
+          ),
+        ),
+        title: Text(
+          item.name,
+          overflow: TextOverflow.clip,
+          style: Theme.of(context).textTheme.headline1,
+        ),
+        subtitle: Text(
+          "Price: ${item.price.toString()}\$",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),
+        ),
+        trailing: IconButton(
+          onPressed: () => onChanged(_inCart),
+          icon: _inCart ? Icon(Icons.remove_shopping_cart_rounded) : Icon(Icons.add_shopping_cart_rounded),
+          color: _inCart ? Colors.red : Theme.of(context).primaryColor,
         ),
       ),
     );
