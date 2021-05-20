@@ -29,8 +29,17 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text("Grocery App"),
       ),
-      body: Center(
-        child: Text("HomePage"),
+      body: ListView.builder(
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              title: Text('$index'),
+              tileColor: Colors.white,
+            ),
+          );
+        },
       ),
     );
   }
