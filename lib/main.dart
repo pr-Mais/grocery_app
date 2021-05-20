@@ -24,6 +24,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Map<String, dynamic>> cart = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,10 +35,13 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
+          bool inCart = cart.contains(items[index]);
+
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListTile(
               contentPadding: const EdgeInsets.all(8.0),
+              tileColor: Colors.white,
               title: Text('${items[index]['name']}'),
               leading: Container(
                 width: 50,
@@ -51,7 +56,13 @@ class _HomePageState extends State<HomePage> {
                 "Price: ${items[index]['price']}\$",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),
               ),
-              tileColor: Colors.white,
+              trailing: Material(
+                child: IconButton(
+                  onPressed: () {},
+                  icon: inCart ? Icon(Icons.remove_shopping_cart_rounded) : Icon(Icons.add_shopping_cart_rounded),
+                  color: inCart ? Colors.red : Theme.of(context).primaryColor,
+                ),
+              ),
             ),
           );
         },
