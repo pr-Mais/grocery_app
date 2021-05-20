@@ -48,6 +48,20 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  void _pushCart() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("My Cart"),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +70,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_cart),
-            onPressed: (){},
+            onPressed: _pushCart,
           )
         ],
       ),
