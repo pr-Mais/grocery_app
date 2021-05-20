@@ -11,7 +11,12 @@ class GroceryApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: const HomePage(),
-      theme: ThemeData(primaryColor: Colors.green),
+      theme: ThemeData(
+        primaryColor: Colors.green,
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -52,7 +57,6 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
-
           return GroceryItemCard(
             item: _groceryItems[index],
             cart: _cart,
@@ -103,7 +107,7 @@ class GroceryItemCard extends StatelessWidget {
         ),
         title: Text(
           item.name,
-          overflow: TextOverflow.clip,
+          style: Theme.of(context).textTheme.headline1,
         ),
         subtitle: Text(
           "Price: ${item.price.toString()}\$",
