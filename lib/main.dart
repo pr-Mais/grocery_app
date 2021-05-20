@@ -58,7 +58,14 @@ class _HomePageState extends State<HomePage> {
               ),
               trailing: Material(
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      if (!inCart)
+                        cart.add(items[index]);
+                      else
+                        cart.remove(items[index]);
+                    });
+                  },
                   icon: inCart ? Icon(Icons.remove_shopping_cart_rounded) : Icon(Icons.add_shopping_cart_rounded),
                   color: inCart ? Colors.red : Theme.of(context).primaryColor,
                 ),
