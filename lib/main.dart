@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/grocery_item_model.dart';
 import 'package:grocery_app/items.dart';
 
 void main() => runApp(GroceryApp());
@@ -24,7 +25,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Map<String, dynamic>> cart = [];
+  List<GroceryItem> _groceryItems = [];
+  List<GroceryItem> _cart = [];
+  
+  @override
+  void initState() {
+    // Map our data into Models
+    _groceryItems = items
+        .map(
+          (item) => GroceryItem.fromMap(item),
+        )
+        .toList();
+
+    // Cart is initially empty
+    _cart = [];
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +52,19 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
-          bool inCart = cart.contains(items[index]);
+          bool inCart = _cart.contains(_groceryItems[index]);
 
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListTile(
               contentPadding: const EdgeInsets.all(8.0),
               tileColor: Colors.white,
-              title: Text('${items[index]['name']}'),
+              title: Text('${_groceryItems[index].name}'),
               leading: Container(
                 width: 50,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(items[index]['img']),
+                    image: AssetImage(_groceryItems[index].img),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -61,9 +78,9 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     setState(() {
                       if (!inCart)
-                        cart.add(items[index]);
+                        _cart.add(_groceryItems[index]);
                       else
-                        cart.remove(items[index]);
+                        _cart.remove(_groceryItems[index]);
                     });
                   },
                   icon: inCart ? Icon(Icons.remove_shopping_cart_rounded) : Icon(Icons.add_shopping_cart_rounded),
