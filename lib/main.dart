@@ -53,6 +53,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Grocery App"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: (){},
+          )
+        ],
       ),
       body: ListView.builder(
         itemCount: items.length,
