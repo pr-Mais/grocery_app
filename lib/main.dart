@@ -24,9 +24,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Text("HomePage"),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Grocery App"),
+      ),
+      body: Center(
+        child: Text("HomePage"),
+      ),
     );
   }
 }
