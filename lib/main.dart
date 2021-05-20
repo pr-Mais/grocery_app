@@ -56,6 +56,21 @@ class _HomePageState extends State<HomePage> {
             appBar: AppBar(
               title: Text("My Cart"),
             ),
+            body: ListView.builder(
+              itemCount: _cart.length,
+              itemBuilder: (context, index) {
+                return GroceryItemCard(
+                  cart: _cart,
+                  item: _cart[index],
+                  onChanged: (bool inCart) => setState(() {
+                    if (inCart)
+                      _cart.remove(_cart[index]);
+                    else
+                      _cart.add(_cart[index]);
+                  }),
+                );
+              },
+            ),
           );
         },
       ),
@@ -133,10 +148,12 @@ class GroceryItemCard extends StatelessWidget {
           "Price: ${item.price.toString()}\$",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),
         ),
-        trailing: IconButton(
-          onPressed: () => onChanged(_inCart),
-          icon: _inCart ? Icon(Icons.remove_shopping_cart_rounded) : Icon(Icons.add_shopping_cart_rounded),
-          color: _inCart ? Colors.red : Theme.of(context).primaryColor,
+        trailing: Material(
+          child: IconButton(
+            onPressed: () => onChanged(_inCart),
+            icon: _inCart ? Icon(Icons.remove_shopping_cart_rounded) : Icon(Icons.add_shopping_cart_rounded),
+            color: _inCart ? Colors.red : Theme.of(context).primaryColor,
+          ),
         ),
       ),
     );
