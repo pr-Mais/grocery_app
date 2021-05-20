@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/items.dart';
 
 void main() => runApp(GroceryApp());
 
@@ -30,12 +31,26 @@ class _HomePageState extends State<HomePage> {
         title: Text("Grocery App"),
       ),
       body: ListView.builder(
-        itemCount: 5,
+        itemCount: items.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListTile(
-              title: Text('$index'),
+              contentPadding: const EdgeInsets.all(8.0),
+              title: Text('${items[index]['name']}'),
+              leading: Container(
+                width: 50,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(items[index]['img']),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              subtitle: Text(
+                "Price: ${items[index]['price']}\$",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),
+              ),
               tileColor: Colors.white,
             ),
           );
