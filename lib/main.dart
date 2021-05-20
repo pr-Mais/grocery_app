@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/cart_page.dart';
 import 'package:grocery_app/grocery_item_model.dart';
 import 'package:grocery_app/items.dart';
 
@@ -32,7 +33,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<GroceryItem> _groceryItems = [];
   List<GroceryItem> _cart = [];
-  double _total = 0.0;
 
   @override
   void initState() {
@@ -49,56 +49,17 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  void _calculateTotal() {
-    // Reset the total to zero in case we are recalculating the price
-    _total = 0.0;
-
-    for (var item in _cart) {
-      setState(() {
-        _total += item.price;
-      });
-    }
-  }
-
   void _pushCart() {
-    _calculateTotal();
-
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text("My Cart"),
-            ),
-            body: Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: _cart.length,
-                    itemBuilder: (context, index) {
-                      return GroceryItemCard(
-                        cart: _cart,
-                        item: _cart[index],
-                        onChanged: (bool inCart) => setState(() {
-                          if (inCart)
-                            _cart.remove(_cart[index]);
-                          else
-                            _cart.add(_cart[index]);
-
-                          _calculateTotal();
-                        }),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 50),
-                Text(
-                  "Total: ${_total.toString()}\$",
-                  style: Theme.of(context).textTheme.headline1,
-                ),
-                const SizedBox(height: 50),
-              ],
-            ),
+          return CartPage(
+            cart: _cart,
+            cartChanged: (value) {
+              setState(() {
+                _cart = value;
+              });
+            },
           );
         },
       ),
