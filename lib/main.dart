@@ -9,6 +9,7 @@ class GroceryApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: const HomePage(),
+      theme: ThemeData(primaryColor: Colors.green),
       debugShowCheckedModeBanner: false,
     );
   }
